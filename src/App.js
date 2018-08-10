@@ -44,6 +44,10 @@ class App extends Component {
     })
   }
 
+  componentDidUpdate() {
+   
+  }
+
   render() {
     return (
       <div className="App">
