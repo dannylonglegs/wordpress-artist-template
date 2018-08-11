@@ -4,8 +4,8 @@ import './App.css';
 class NavBar extends Component {
 
     render() {
-        var projects = this.props.projects;
-        var pages = this.props.pages;
+        let projects = this.props.projects;
+        let pages = this.props.pages;
       return (
         <div className="nav-bar">
             <h2>Zines</h2>

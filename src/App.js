@@ -38,12 +38,11 @@ class App extends Component {
     let id = this.state.pageId;
     let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts/`;
     let info = url + id;
-    console.log(info)
     fetch(info)
     .then(response => response.json())
     .then(response => 
       this.setState({
-        pageInfo: response
+        pageInfo: response.content.rendered
     }))
   }
 
@@ -60,12 +59,11 @@ class App extends Component {
       let id = this.state.pageId;
       let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts/`;
       let info = url + id;
-      console.log(info)
     fetch(info)
     .then(response => response.json())
     .then(response => 
       this.setState({
-        pageInfo: response
+        pageInfo: response.content.rendered
       }))
     }
   }
@@ -80,7 +78,6 @@ class App extends Component {
           pages={this.state.pages} 
           pageChange={this.pageChange}
         >
-          {this.props.children}
         </NavBar>
         <Project 
           pageId={this.state.pageId}
