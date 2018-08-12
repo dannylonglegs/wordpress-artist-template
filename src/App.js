@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import NavBar from './NavBar.js';
 import Project from './Project.js';
+import Page from './Page.js';
+
+const siteName = "YadaYada";
 
 class App extends Component {
   
@@ -9,11 +12,11 @@ class App extends Component {
     super(props);
     this.pageChange = this.pageChange.bind(this);
     this.state = {
-      projects:[],
+      posts:[],
       pages: [],
       pageId: 1,
       pageInfo: [],
-      currentPageType: ''
+      currentPageType: 'post'
     }
   }
 
@@ -23,7 +26,7 @@ class App extends Component {
     .then(response => response.json())
     .then(response => 
       this.setState({
-        projects: response
+        posts: response
       })
     )
 
@@ -48,58 +51,88 @@ class App extends Component {
   }
 
   pageChange(e){
-    let id = e.target.id;
-    id = parseInt(id);
-    let type = e.target.className
-    console.log(type)
+    let id = parseInt(e.target.id);
+    let type = e.target.className;
     this.setState({
       pageId: id,
       currentPageType: type
     })
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(this.state.pageId !== prevState.pageId && this.state.currentPageType === "post") {
-      let id = this.state.pageId;
-      let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts/`;
-      let info = url + id;
-    fetch(info)
-    .then(response => response.json())
-    .then(response => 
-      this.setState({
-        pageInfo: response.content.rendered
-      }))
-    }
+  // componentDidUpdate(prevProps, prevState){
+  //   if(this.state.pageId !== prevState.pageId && this.state.currentPageType === "post") {
+  //     let id = this.state.pageId;
+  //     let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts/`;
+  //     let info = url + id;
+  //   fetch(info)
+  //   .then(response => response.json())
+  //   .then(response => 
+  //     this.setState({
+  //       pageInfo: response.content.rendered
+  //     }))
+  //   }
 
-    if(this.state.pageId !== prevState.pageId && this.state.currentPageType === "page") {
-      let id = this.state.pageId;
-      let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/pages/`;
-      let info = url + id;
-    fetch(info)
-    .then(response => response.json())
-    .then(response => 
-      this.setState({
-        pageInfo: response.content.rendered
-      }))
+  //   if(this.state.pageId !== prevState.pageId && this.state.currentPageType === "page") {
+  //     let id = this.state.pageId;
+  //     let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/pages/`;
+  //     let info = url + id;
+  //   fetch(info)
+  //   .then(response => response.json())
+  //   .then(response => 
+  //     this.setState({
+  //       pageInfo: response.content.rendered
+  //     }))
+  //   }
+  // }
+
+  
+componentDidUpdate(prevProps, prevState) {
+  let pageId = this.state.pageId;
+  let posts = this.state.posts;
+  let pages = this.state.pages;
+  let allPosts = posts.concat(pages);
+  let post = [];
+  post = allPosts.filter((x) => {
+    if (x.id === pageId){
+      return x
     }
+  })
+  if (post.length > 0 && this.state.pageId !== prevState.pageId && post[0].type === "post") {
+    console.log("here i am inside post")
+    let pageContent = post[0].content.rendered;
+    this.setState({
+      pageInfo: pageContent,
+      currentPageType: 'post'
+    })
   }
-
+  if (post.length > 0 && this.state.pageId !== prevState.pageId && post[0].type === "page") {
+    console.log("here i am inside page")
+    let pageContent = post[0].content.rendered;
+    this.setState({
+      pageInfo: pageContent,
+      currentPageType: 'page'
+    })
+  }
+}
 
   render() {
     return (
       <div className="App">
-        <h1 className="title-page-header">Test Site</h1>
+        <h1 className="title-page-header">{siteName}</h1>
 
         <NavBar 
-          projects={this.state.projects} 
+          posts={this.state.posts} 
           pages={this.state.pages} 
           pageChange={this.pageChange}
         />
-
         <Project 
           pageId={this.state.pageId}
           pageInfo={this.state.pageInfo}
         />
+        {/* <Page
+          pageId={this.state.pageId}
+          pageInfo={this.state.pageInfo}
+        /> */}
       </div>
     );
   }
