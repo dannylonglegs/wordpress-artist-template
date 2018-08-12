@@ -59,33 +59,6 @@ class App extends Component {
       currentPageType: type
     })
   }
-
-  // componentDidUpdate(prevProps, prevState){
-  //   if(this.state.pageId !== prevState.pageId && this.state.currentPageType === "post") {
-  //     let id = this.state.pageId;
-  //     let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts/`;
-  //     let info = url + id;
-  //   fetch(info)
-  //   .then(response => response.json())
-  //   .then(response => 
-  //     this.setState({
-  //       pageInfo: response.content.rendered
-  //     }))
-  //   }
-
-  //   if(this.state.pageId !== prevState.pageId && this.state.currentPageType === "page") {
-  //     let id = this.state.pageId;
-  //     let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/pages/`;
-  //     let info = url + id;
-  //   fetch(info)
-  //   .then(response => response.json())
-  //   .then(response => 
-  //     this.setState({
-  //       pageInfo: response.content.rendered
-  //     }))
-  //   }
-  // }
-
   
 componentDidUpdate(prevProps, prevState) {
   let pageId = this.state.pageId;
