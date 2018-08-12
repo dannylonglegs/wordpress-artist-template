@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavBar from './NavBar.js';
-import Project from './Project.js';
-import Page from './Page.js';
+// import Project from './Project.js';
+// import Page from './Page.js';
+import PageHandler from './PageHandler.js';
 
 const siteName = "YadaYada";
 
@@ -125,14 +126,11 @@ componentDidUpdate(prevProps, prevState) {
           pages={this.state.pages} 
           pageChange={this.pageChange}
         />
-        <Project 
+        <PageHandler
           pageId={this.state.pageId}
           pageInfo={this.state.pageInfo}
+          currentPageType={this.state.currentPageType}
         />
-        {/* <Page
-          pageId={this.state.pageId}
-          pageInfo={this.state.pageInfo}
-        /> */}
       </div>
     );
   }
