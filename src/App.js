@@ -12,7 +12,8 @@ class App extends Component {
       projects:[],
       pages: [],
       pageId: 1,
-      pageInfo: []
+      pageInfo: [],
+      currentPageType: ''
     }
   }
 
@@ -47,17 +48,32 @@ class App extends Component {
   }
 
   pageChange(e){
-    var id = e.target.id;
+    let id = e.target.id;
     id = parseInt(id);
+    let type = e.target.className
+    console.log(type)
     this.setState({
-      pageId: id
+      pageId: id,
+      currentPageType: type
     })
   }
 
   componentDidUpdate(prevProps, prevState){
-    if(this.state.pageId !== prevState.pageId) {
+    if(this.state.pageId !== prevState.pageId && this.state.currentPageType === "post") {
       let id = this.state.pageId;
       let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts/`;
+      let info = url + id;
+    fetch(info)
+    .then(response => response.json())
+    .then(response => 
+      this.setState({
+        pageInfo: response.content.rendered
+      }))
+    }
+
+    if(this.state.pageId !== prevState.pageId && this.state.currentPageType === "page") {
+      let id = this.state.pageId;
+      let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/pages/`;
       let info = url + id;
     fetch(info)
     .then(response => response.json())
@@ -72,13 +88,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1 className="title-page-header">Hello Daniel</h1>
+        <h1 className="title-page-header">Test Site</h1>
+
         <NavBar 
           projects={this.state.projects} 
           pages={this.state.pages} 
           pageChange={this.pageChange}
-        >
-        </NavBar>
+        />
+
         <Project 
           pageId={this.state.pageId}
           pageInfo={this.state.pageInfo}
