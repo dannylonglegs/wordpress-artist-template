@@ -17,7 +17,8 @@ class App extends Component {
       pages: [],
       pageId: 1,
       pageInfo: [],
-      currentPageType: 'post'
+      currentPageType: 'post',
+      currentSlug: ''
     }
   }
 
@@ -52,11 +53,14 @@ class App extends Component {
   }
 
   pageChange(e){
+    e.preventDefault();
     let id = parseInt(e.target.id);
     let type = e.target.className;
+    let slug = e.target.getAttribute('href');
     this.setState({
       pageId: id,
-      currentPageType: type
+      currentPageType: type,
+      currentSlug: slug
     })
   }
   
@@ -103,6 +107,7 @@ componentDidUpdate(prevProps, prevState) {
           pageId={this.state.pageId}
           pageInfo={this.state.pageInfo}
           currentPageType={this.state.currentPageType}
+          slug={this.state.currentSlug}
         />
       </div>
     );

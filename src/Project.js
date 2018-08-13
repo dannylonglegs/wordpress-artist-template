@@ -6,7 +6,7 @@ class Project extends Component {
     render() {
       return (
         <div 
-          className="project-wrapper" 
+          className="project-wrapper"
           dangerouslySetInnerHTML={{__html: this.props.pageInfo}}>
         </div>
       );

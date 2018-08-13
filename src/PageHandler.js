@@ -12,6 +12,7 @@ class PageHandler extends Component {
                 pageId={this.props.pageId}
                 pageInfo={this.props.pageInfo}
                 currentPageType={this.props.currentPageType}
+                slug={this.props.slug}
             />
           );
     }
@@ -22,6 +23,7 @@ class PageHandler extends Component {
                 pageId={this.props.pageId}
                 pageInfo={this.props.pageInfo}
                 currentPageType={this.props.currentPageType}
+                slug={this.props.slug}
             />
           );
     }

@@ -9,15 +9,15 @@ class NavBar extends Component {
       return (
         <div className="nav-bar">
             {posts.map((title) =>
-                <li className={title.type} key={title.id} id={title.id} onClick={this.props.pageChange}>
+                <a className={title.type} key={title.id} id={title.id} onClick={this.props.pageChange} href={title.slug}>
                     {title.title.rendered}
-                </li>
+                </a>
             )
             }
             {pages.map((title) =>
-                <li className={title.type} key={title.id} id={title.id} onClick={this.props.pageChange}>
+                <a className={title.type} key={title.id} id={title.id} onClick={this.props.pageChange} href={title.slug}>
                     {title.title.rendered}
-                </li>
+                </a>
             )
             }
         </div>
