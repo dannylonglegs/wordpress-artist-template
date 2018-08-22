@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavBar from './NavBar.js';
-// import Project from './Project.js';
-// import Page from './Page.js';
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import PageHandler from './PageHandler.js';
 
 const siteName = "YadaYada";
@@ -41,15 +40,15 @@ class App extends Component {
       })
     )
 
-    let id = this.state.pageId;
-    let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts/`;
-    let info = url + id;
-    fetch(info)
-    .then(response => response.json())
-    .then(response => 
-      this.setState({
-        pageInfo: response.content.rendered
-    }))
+    // let id = this.state.pageId;
+    // let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts/`;
+    // let info = url + id;
+    // fetch(info)
+    // .then(response => response.json())
+    // .then(response => 
+    //   this.setState({
+    //     pageInfo: response.content.rendered
+    // }))
   }
 
   pageChange(e){
@@ -76,7 +75,6 @@ componentDidUpdate(prevProps, prevState) {
     }
   })
   if (post.length > 0 && this.state.pageId !== prevState.pageId && post[0].type === "post") {
-    console.log("here i am inside post")
     let pageContent = post[0].content.rendered;
     this.setState({
       pageInfo: pageContent,
@@ -84,7 +82,6 @@ componentDidUpdate(prevProps, prevState) {
     })
   }
   if (post.length > 0 && this.state.pageId !== prevState.pageId && post[0].type === "page") {
-    console.log("here i am inside page")
     let pageContent = post[0].content.rendered;
     this.setState({
       pageInfo: pageContent,
@@ -95,21 +92,23 @@ componentDidUpdate(prevProps, prevState) {
 
   render() {
     return (
-      <div className="App">
-        <h1 className="title-page-header">{siteName}</h1>
-
-        <NavBar 
-          posts={this.state.posts} 
-          pages={this.state.pages} 
-          pageChange={this.pageChange}
-        />
-        <PageHandler
-          pageId={this.state.pageId}
-          pageInfo={this.state.pageInfo}
-          currentPageType={this.state.currentPageType}
-          slug={this.state.currentSlug}
-        />
-      </div>
+    <BrowserRouter>
+        <div className="App">
+          <h1 className="title-page-header">{siteName}</h1>
+          <NavBar 
+            posts={this.state.posts} 
+            pages={this.state.pages} 
+            pageChange={this.pageChange}
+          >
+          </NavBar>
+          <PageHandler
+              pageId={this.state.pageId}
+              pageInfo={this.state.pageInfo}
+              currentPageType={this.state.currentPageType}
+              slug={this.state.currentSlug}
+            />
+        </div>
+      </BrowserRouter>
     );
   }
 }

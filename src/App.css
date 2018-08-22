@@ -5,6 +5,12 @@ body {
 .nav-bar {
   text-align: left;
   padding: 1em;
+  
+}
+
+.nav-bar a {
+  display: list-item;
+  list-style-type: none;
 }
 
 .title-page-header {
@@ -20,7 +26,7 @@ h2 {
 }
 
 li {
-  list-style-type: none;
+
 }
 
 .zine-author {
