@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
  })
 
 const mapDispatchToProps = dispatch => ({
-  loadPosts: () => dispatch(apiCall())
+  loadPosts: () => dispatch(apiCall()),
  })
 
 
@@ -96,9 +96,15 @@ componentDidMount(){
 }
 
   render() {
+    let posts = this.props.postsReducer.posts;
+    console.log("these are the posts",posts);
     return (
       <div className="full-page">
-        
+        {posts.map((post)=><Link to={post.slug}>
+                    <a className={post.type} key={post.id} id={post.id} href={post.slug}>
+                        {post.title.rendered}
+                    </a>
+                </Link>)}
       </div>
     );
   }
