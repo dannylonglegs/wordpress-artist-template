@@ -91,6 +91,7 @@ componentDidUpdate(prevProps, prevState) {
 }
 
   render() {
+    console.log(this.state.posts)
     return (
     <BrowserRouter>
         <div className="App">
