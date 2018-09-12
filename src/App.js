@@ -92,15 +92,13 @@ class App extends Component {
 // }
 
 componentDidMount(){
-  console.log(this.state)
+  this.props.loadPosts();
 }
 
   render() {
     return (
       <div className="full-page">
-        <NavBar>
-          {this.props.children}
-        </NavBar>
+        
       </div>
     );
   }

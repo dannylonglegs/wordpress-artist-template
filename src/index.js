@@ -8,8 +8,6 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-console.log("this is in index")
-
 ReactDOM.render(
     <Provider store={configureStore()}>
         <App />
