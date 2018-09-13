@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import NavBar from './NavBar.js';
+import axios from "axios";
+import NavBar from "./NavBar";
 import { BrowserRouter, Route, Link } from 'react-router-dom'
-import PageHandler from './PageHandler.js';
+
 
 const siteName = "YadaYada";
 
@@ -10,106 +11,70 @@ class App extends Component {
   
   constructor(props) {
     super(props);
-    this.pageChange = this.pageChange.bind(this);
     this.state = {
       posts:[],
-      pages: [],
-      pageId: 1,
-      pageInfo: [],
-      currentPageType: 'post',
-      currentSlug: ''
+      pages: []
     }
   }
 
   componentDidMount(){
-    let projects = "https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts"
-    fetch(projects)
-    .then(response => response.json())
+    let posts = "https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts"
+    axios.get(posts)
     .then(response => 
       this.setState({
-        posts: response
+        posts: response.data
       })
     )
 
     let pages = "https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/pages"
-    fetch(pages)
-    .then(response => response.json())
+    axios.get(pages)
     .then(response => 
       this.setState({
-        pages: response
+        pages: response.data
       })
     )
-
-    // let id = this.state.pageId;
-    // let url = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts/`;
-    // let info = url + id;
-    // fetch(info)
-    // .then(response => response.json())
-    // .then(response => 
-    //   this.setState({
-    //     pageInfo: response.content.rendered
-    // }))
   }
 
-  pageChange(e){
-    e.preventDefault();
-    let id = parseInt(e.target.id);
-    let type = e.target.className;
-    let slug = e.target.getAttribute('href');
-    this.setState({
-      pageId: id,
-      currentPageType: type,
-      currentSlug: slug
-    })
-  }
-  
-componentDidUpdate(prevProps, prevState) {
-  let pageId = this.state.pageId;
-  let posts = this.state.posts;
-  let pages = this.state.pages;
-  let allPosts = posts.concat(pages);
-  let post = [];
-  post = allPosts.filter((x) => {
-    if (x.id === pageId){
-      return x
-    }
-  })
-  if (post.length > 0 && this.state.pageId !== prevState.pageId && post[0].type === "post") {
-    let pageContent = post[0].content.rendered;
-    this.setState({
-      pageInfo: pageContent,
-      currentPageType: 'post'
-    })
-  }
-  if (post.length > 0 && this.state.pageId !== prevState.pageId && post[0].type === "page") {
-    let pageContent = post[0].content.rendered;
-    this.setState({
-      pageInfo: pageContent,
-      currentPageType: 'page'
-    })
-  }
-}
+// componentDidUpdate(prevProps, prevState) {
+//   let pageId = this.state.pageId;
+//   let posts = this.state.posts;
+//   let pages = this.state.pages;
+//   let allPosts = posts.concat(pages);
+//   let post = [];
+//   post = allPosts.filter((x) => {
+//     if (x.id === pageId){
+//       return x
+//     }
+//   })
+//   if (post.length > 0 && this.state.pageId !== prevState.pageId && post[0].type === "post") {
+//     let pageContent = post[0].content.rendered;
+//     this.setState({
+//       pageInfo: pageContent,
+//       currentPageType: 'post'
+//     })
+//   }
+//   if (post.length > 0 && this.state.pageId !== prevState.pageId && post[0].type === "page") {
+//     let pageContent = post[0].content.rendered;
+//     this.setState({
+//       pageInfo: pageContent,
+//       currentPageType: 'page'
+//     })
+//   }
+// }
 
   render() {
-    console.log(this.state.posts)
+    let posts = this.state.posts;
+    let pages = this.state.pages;
+    console.log("posts", posts);
     return (
     <BrowserRouter>
-        <div className="App">
-          <h1 className="title-page-header">{siteName}</h1>
-          <NavBar 
-            posts={this.state.posts} 
-            pages={this.state.pages} 
-            pageChange={this.pageChange}
-          >
-          </NavBar>
-          <PageHandler
-              pageId={this.state.pageId}
-              pageInfo={this.state.pageInfo}
-              currentPageType={this.state.currentPageType}
-              slug={this.state.currentSlug}
-            />
-        </div>
-      </BrowserRouter>
+      <NavBar
+        posts={this.state.posts}
+        pages={this.state.pages}
+      >
+        {this.props.children}
+      </NavBar>
+    </BrowserRouter>
     );
   }
 }

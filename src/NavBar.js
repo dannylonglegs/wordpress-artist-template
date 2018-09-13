@@ -1,32 +1,67 @@
 import React, { Component } from 'react';
-import { Route, Link} from "react-router-dom";
 import './App.css';
+import Content from './Content'
+import axios from "axios";
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 
 class NavBar extends Component {
 
-    render() {
-        let posts = this.props.posts;
-        let pages = this.props.pages;
-      return (
-        <div className="nav-bar">
-            {posts.map((title) =>
-                <Link to={title.slug}>
-                    <a className={title.type} key={title.id} id={title.id} onClick={this.props.pageChange} href={title.slug}>
-                        {title.title.rendered}
-                    </a>
-                </Link>
-            )
-            }
-            {pages.map((title) =>
-                <a className={title.type} key={title.id} id={title.id} onClick={this.props.pageChange} href={title.slug}>
-                    {title.title.rendered}
-                </a>
-            )
-            }
-        </div>
-      );
-    }
+    constructor(props) {
+        super(props);
+        this.pageChange = this.pageChange.bind(this);
+        this.state = {
+          pageId: 1,
+          pageInfo: []
+        }
+      }
+    
+  pageChange(e){
+    let id = parseInt(e.target.id);
+    this.setState({
+      pageId: id
+    })
   }
   
-  export default NavBar;
-  
+
+  render() {
+    let posts = this.props.posts;
+    let pages = this.props.pages;
+    return (
+        <div className="full-page">
+        <div className="nav-bar">
+           <ul>
+               <li>
+               {posts.map((post) => {
+          return(
+          <Link 
+            to={"/" + post.slug}
+            id={post.id}
+            key={post.id}
+            onClick={this.pageChange}
+            >
+              {post.title.rendered}
+          </Link>)})}
+               </li>
+           </ul>
+           <ul>
+               <li>
+                {pages.map((post) => {
+                    return(
+                    <Link 
+                        to={"/" + post.slug}
+                        id={post.id}
+                        key={post.id}
+                        onClick={this.pageChange}
+                        >
+                        {post.title.rendered}
+                    </Link>)})}
+               </li>
+           </ul>
+        </div>
+        <Content pageId={this.state.pageId}/>
+        </div>
+    )
+  }
+}
+
+export default NavBar;
