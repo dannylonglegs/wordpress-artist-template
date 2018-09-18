@@ -37,7 +37,7 @@ class NavBar extends Component {
           return(
         <div>
           <Link 
-            to={`/${post.slug}`}
+            to={post.slug}
             id={post.id}
             key={post.id}
             onClick={this.pageChange}
