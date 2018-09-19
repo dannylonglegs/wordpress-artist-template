@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import axios from "axios";
 
 class Content extends Component {
 
@@ -23,13 +22,13 @@ class Content extends Component {
 
   componentDidUpdate(prevProps) {
     if(this.props.match.params.slug !== prevProps.match.params.slug){
-      console.log("yoooooo", this.props.match.params.slug)
       let slug = this.props.match.params.slug;
       let post = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts?slug=${slug}`
-      axios.get(post)
+      fetch(post)
+      .then(response => response.json())
       .then(response => 
         this.setState({
-          post: response.data
+          post: response
         })
       )}
     }

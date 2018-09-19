@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import axios from "axios";
 import { Link } from 'react-router-dom'
 
 
@@ -16,10 +15,11 @@ class NavBar extends Component {
 
       componentDidMount(){
         let posts = "https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts"
-        axios.get(posts)
-        .then(response => 
+        fetch(posts)
+        .then(response => response.json()) 
+        .then(response =>
           this.setState({
-            posts: response.data
+            posts: response
           })
         )}
 
