@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Content from './Content'
 import axios from "axios";
-import { Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 class NavBar extends Component {
@@ -11,9 +10,7 @@ class NavBar extends Component {
         super(props);
         this.state = {
           posts: [],
-          pages: [],  
-          pageId: 0,
-          pageInfo: []
+          pages: []
         }
       }
 
@@ -27,32 +24,27 @@ class NavBar extends Component {
         )}
 
   render() {
-    let posts = this.state.posts;
-    if(posts.length > 0){
+    if(this.state.posts.length > 0){
     return ( 
-      <div>
-           <ul>
-               <li>
-               {posts.map((post) => {
+      <div className="nav-bar">
+        <ul>
+          {this.state.posts.map((post) => {
           return(
-        <div>
-          <Link 
-            to={post.slug}
-            id={post.id}
-            key={post.id}
-            onClick={this.pageChange}
-            className={"post"}
-            >
-              {post.title.rendered}
-          </Link>
-          </div>
+            <li>
+              <Link 
+                to={post.slug}
+                id={post.id}
+                key={post.id}
+                onClick={this.pageChange}
+                className={"post"}
+                >
+                  {post.title.rendered}
+              </Link>
+            </li>
           )})}
-               </li>
-           </ul>
-
-            </div>
-    )
-        }
+          </ul>
+        </div>
+    )}
     else {
         return (
             <h1>loading...</h1>

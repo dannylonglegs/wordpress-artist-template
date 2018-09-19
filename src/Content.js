@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from "axios";
-import { BrowserRouter, Route, Link } from 'react-router-dom'
 
 class Content extends Component {
 
@@ -9,7 +8,6 @@ class Content extends Component {
     super(props);
     this.state = {
       post: {}
-      // slug: this.props.match.params.slug
     }
   }
 
@@ -23,26 +21,17 @@ class Content extends Component {
       })
     )}
 
-  shouldComponentUpdate(nextProps){
-      if(nextProps.match.params.slug != this.props.match.params.slug){
-        console.log("new props", nextProps);
-        return true
-      }
-      if(nextProps.match.params.slug == this.props.match.params.slug){
-        console.log("same props", nextProps);
-        return false
-      }
-  }
-
-  componentDidUpdate() {
-    let slug = this.props.match.params.slug;
+  componentDidUpdate(prevProps) {
+    if(this.props.match.params.slug !== prevProps.match.params.slug){
+      console.log("yoooooo", this.props.match.params.slug)
+      let slug = this.props.match.params.slug;
       let post = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts?slug=${slug}`
       axios.get(post)
       .then(response => 
         this.setState({
           post: response.data
         })
-      )
+      )}
     }
       
 
@@ -58,12 +47,10 @@ class Content extends Component {
     }
     else {
       return (
-      <h1></h1>
+      <h1>...</h1>
       )
     }
   }
-    
-  
 }
 
 export default Content;
