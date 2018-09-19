@@ -13,10 +13,11 @@ class Content extends Component {
   componentDidMount(){
     let slug = this.props.match.params.slug;
     let posts = `https://127.0.0.1/wp-vs-497/wordpress/wp-json/wp/v2/posts?slug=${slug}`
-    axios.get(posts)
-    .then(response => 
+    fetch(posts)
+    .then(response => response.json())
+    .then(response =>
       this.setState({
-        post: response.data
+        post: response
       })
     )}
 
