@@ -1,4 +1,1 @@
-React Template built with WordPress REST API. 
-
-Issues:
-    - Content is rendering previous API call
+React Template using WordPress REST API. 
